@@ -106,6 +106,7 @@ npm start
 ## 📸 Preview
 
 <img width="1692" height="888" alt="image" src="https://github.com/user-attachments/assets/0eb2ddd9-c2dc-4cef-be94-c3f786d93061" />
+<img width="1683" height="896" alt="image" src="https://github.com/user-attachments/assets/bde7c71c-e422-4886-9037-7526732bfc39" />
 
 
 ---
