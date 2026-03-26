@@ -1,0 +1,22 @@
+.switchContainer {
+  width: 32px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  div {
+    margin: 3px;
+    width: 24px;
+    height: 24px;
+    // z-index: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+  }
+}

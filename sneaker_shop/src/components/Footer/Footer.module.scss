@@ -1,0 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fugaz+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&display=swap");
+
+.footerContainer {
+  background-color: #000;
+  color: #8f8f8f;
+  .footerContent {
+    padding: 0px 25px 40px 25px;
+    .logo {
+      display: flex;
+      justify-content: start;
+      padding: 30px 0px 20px 0px;
+      cursor: default;
+      img {
+        // margin: auto;
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        filter: invert(1);
+      }
+      h2 {
+        color: #fff;
+        font-size: 16px;
+        width: min-content;
+        margin: auto 0 auto 5px;
+        text-align: left;
+        line-height: 0.9;
+        font-family: "Audiowide", cursive;
+        font-family: "Fugaz One", cursive;
+        font-family: "Sedgwick Ave Display", cursive;
+      }
+    }
+    .footerInformation {
+      display: flex;
+      justify-content: space-between;
+      .skills,
+      .projects {
+        h4 {
+          margin: 0 0 5px 0;
+          padding: 0;
+          font-size: 20px;
+          text-align: left;
+          font-weight: 600;
+          color: #fff;
+          font-size: 18px;
+        }
+        ul {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          font-size: 14px;
+          li {
+            display: flex;
+            a {
+              color: #b4b4b4;
+              margin: 0 0 0 10px;
+              transition: 0.2s;
+              &:hover {
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  small {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    height: 48px;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      display: block;
+      width: 100%;
+      height: 1px;
+      background-color: #303030;
+    }
+  }
+}
+
+@media only screen and (max-width: 760px) {
+  .footerContainer {
+    .footerContent {
+      padding: 0px 15px 20px 15px;
+      .logo {
+        padding: 20px 0px 10px 0px;
+      }
+      .footerInformation {
+        flex-direction: column;
+        gap: 20px;
+        .skills {
+          ul {
+            display: flex;
+            gap: 5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  .footerContainer {
+    .footerContent {
+      padding: 0px 10px 15px 10px;
+      .logo {
+        padding: 5px 0px;
+        img {
+          width: 40px;
+          height: 40px;
+        }
+        h2 {
+          font-size: 14px;
+        }
+      }
+      .footerInformation {
+        .skills {
+          ul {
+            flex-direction: column;
+          }
+        }
+        .skills,
+        .projects {
+          h4 {
+            font-size: 15px !important;
+          }
+          ul {
+            font-size: 12px !important;
+          }
+        }
+      }
+    }
+    small {
+      font-size: 12px;
+    }
+  }
+}
