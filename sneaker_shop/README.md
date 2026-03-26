@@ -6,7 +6,6 @@
 *	React, react-router-dom, react-redux, hooks.
 *	Redux, redux-thunk.
 *	Axios, Rest API.
-*	i18n.
 *	SCSS, classnames.
 
 #### This is a pet project, Sneaker Shop site. It has next features: 
