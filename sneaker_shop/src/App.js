@@ -17,7 +17,7 @@ import { initializeApp } from "./redux/app_reducer";
 let App = ({ initializeApp, isInitialized }) => {
   useEffect(() => {
     initializeApp();
-  }, []);
+  }, [initializeApp]);
 
   return isInitialized ? (
     <div className={style.appWrapper}>

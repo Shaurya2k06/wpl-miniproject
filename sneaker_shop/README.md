@@ -22,7 +22,7 @@
 * Pagination.
 * Selection number of shoes on page.
 
-🌐Sneakers Shop on GitHub Pages: https://sergittko.github.io/sneaker_shop/. <br/>
+ <br/>
 <h2 align="center">
  Preview of application:
 </h2>

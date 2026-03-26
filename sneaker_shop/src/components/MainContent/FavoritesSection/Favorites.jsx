@@ -1,8 +1,6 @@
 import style from "./Favorites.module.scss";
 import { useTranslation } from "react-i18next";
-import cross from "../../../img/icons/plus.svg";
 import { ReactComponent as HeartСrack } from "../../../img/icons/heartСrack.svg";
-import MainCard from "./../MainSection/MainCard/MainCard";
 import FavoritesCard from "./FavoritesCard";
 
 let Favorites = ({ favorites, deleteFavorite }) => {

@@ -7,16 +7,16 @@ import { connect } from "react-redux";
 import Cart from "./Cart";
 import { useEffect } from "react";
 
-let CartContainer = (props) => {
+let CartContainer = ({ getCartTh, cartData, setQuantinyTh, deleteItemTh }) => {
   useEffect(() => {
-    props.getCartTh();
-  }, []);
+    getCartTh();
+  }, [getCartTh]);
 
   return (
     <Cart
-      cartData={props.cartData}
-      setQuantinyTh={props.setQuantinyTh}
-      deleteItem={props.deleteItemTh}
+      cartData={cartData}
+      setQuantinyTh={setQuantinyTh}
+      deleteItem={deleteItemTh}
     />
   );
 };

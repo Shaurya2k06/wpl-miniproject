@@ -1,6 +1,6 @@
 import style from "./YearFilter.module.scss";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
 
 let YearFilter = ({ setFilterData, clearFilters }) => {
@@ -14,9 +14,9 @@ let YearFilter = ({ setFilterData, clearFilters }) => {
     clearFilters && changeInputFrom(1994);
     clearFilters && changeInputTo(2023);
     applyYear();
-  }, [clearFilters]);
+  }, [clearFilters, applyYear]);
 
-  let applyYear = () => {
+  let applyYear = useCallback(() => {
     if (inputFrom > inputTo) {
       return showError(t("sneakersSection.filterErrors.yearBiggerLower"));
     }
@@ -31,7 +31,7 @@ let YearFilter = ({ setFilterData, clearFilters }) => {
     setFilterData((filters) => {
       return { ...filters, year: { from: +inputFrom, to: +inputTo } };
     });
-  };
+  }, [inputFrom, inputTo, setFilterData, showError, t]);
 
   return (
     <div className={style.filterContainer}>
