@@ -10,12 +10,6 @@ let PriceFilter = ({ setFilterData, clearFilters }) => {
   let [inputTo, changeInputTo] = useState(6000);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    clearFilters && changeInputFrom(10);
-    clearFilters && changeInputTo(6000);
-    applyPrice();
-  }, [clearFilters, applyPrice]);
-
   let applyPrice = useCallback(() => {
     if (inputFrom > inputTo) {
       return showError(t("sneakersSection.filterErrors.priceBiggerLower"));
@@ -32,6 +26,12 @@ let PriceFilter = ({ setFilterData, clearFilters }) => {
       return { ...filters, price: { from: +inputFrom, to: +inputTo } };
     });
   }, [inputFrom, inputTo, setFilterData, showError, t]);
+
+  useEffect(() => {
+    clearFilters && changeInputFrom(10);
+    clearFilters && changeInputTo(6000);
+    applyPrice();
+  }, [clearFilters, applyPrice]);
 
   return (
     <div className={style.filterContainer}>
