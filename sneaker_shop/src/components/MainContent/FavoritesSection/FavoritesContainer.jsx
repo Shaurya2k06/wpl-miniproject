@@ -6,15 +6,15 @@ import {
 } from "./../../../redux/cart_reducer";
 import { useEffect } from "react";
 
-let FavoritesContainer = (props) => {
+let FavoritesContainer = ({ getFavoritesTh, favorites, deleteFavoriteTh }) => {
   useEffect(() => {
-    props.getFavoritesTh();
-  }, []);
+    getFavoritesTh();
+  }, [getFavoritesTh]);
 
   return (
     <Favorites
-      favorites={props.favorites}
-      deleteFavorite={props.deleteFavoriteTh}
+      favorites={favorites}
+      deleteFavorite={deleteFavoriteTh}
     />
   );
 };

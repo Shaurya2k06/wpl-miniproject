@@ -1,6 +1,6 @@
 import style from "./PriceFilter.module.scss";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import classNames from "classnames";
 
 let PriceFilter = ({ setFilterData, clearFilters }) => {
@@ -14,9 +14,9 @@ let PriceFilter = ({ setFilterData, clearFilters }) => {
     clearFilters && changeInputFrom(10);
     clearFilters && changeInputTo(6000);
     applyPrice();
-  }, [clearFilters]);
+  }, [clearFilters, applyPrice]);
 
-  let applyPrice = () => {
+  let applyPrice = useCallback(() => {
     if (inputFrom > inputTo) {
       return showError(t("sneakersSection.filterErrors.priceBiggerLower"));
     }
@@ -31,7 +31,7 @@ let PriceFilter = ({ setFilterData, clearFilters }) => {
     setFilterData((filters) => {
       return { ...filters, price: { from: +inputFrom, to: +inputTo } };
     });
-  };
+  }, [inputFrom, inputTo, setFilterData, showError, t]);
 
   return (
     <div className={style.filterContainer}>

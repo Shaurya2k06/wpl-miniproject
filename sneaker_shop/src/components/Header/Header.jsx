@@ -3,7 +3,6 @@ import { ReactComponent as Cross } from "../../img/icons/plus.svg";
 import { ReactComponent as Menu } from "../../img/icons/menu.svg";
 import style from "./Header.module.scss";
 import ThemeSwitcher from "../../assets/themeSwitcher/themeSwitcher";
-import LanguageSwitcher from "../../assets/languageSwitcher/languageSwitcher";
 import FavoriteItems from "../../assets/favoriteItems/FavoriteItems";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
@@ -12,9 +11,6 @@ import classNames from "classnames";
 
 let Header = () => {
   const { t, i18n } = useTranslation();
-  const changeLanguage = (language) => {
-    i18n.changeLanguage(language);
-  };
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [activeBurger, setActiveBurger] = useState(false);
 
@@ -80,7 +76,6 @@ let Header = () => {
           <div className={style.headerSwithers}>
             <FavoriteItems />
             <ThemeSwitcher />
-            <LanguageSwitcher changeLanguage={changeLanguage} />
           </div>
         </header>
       ) : (
@@ -160,7 +155,6 @@ let Header = () => {
             <div className={style.headerSwithers}>
               <FavoriteItems />
               <ThemeSwitcher />
-              <LanguageSwitcher changeLanguage={changeLanguage} />
             </div>
           </div>
         </header>

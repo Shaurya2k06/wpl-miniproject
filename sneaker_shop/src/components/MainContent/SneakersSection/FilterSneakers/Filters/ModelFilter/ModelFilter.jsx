@@ -44,7 +44,7 @@ let ModelFilter = ({ setFilterData, clearFilters }) => {
     setFilterData((filters) => {
       return { ...filters, model: checkFilter };
     });
-  }, [filter]);
+  }, [filter, setFilterData]);
 
   return (
     <div className={style.filterContainer}>

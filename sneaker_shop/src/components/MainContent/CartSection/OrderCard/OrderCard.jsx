@@ -1,7 +1,6 @@
 import style from "./OrderCard.module.scss";
 import arrow from "../../../../img/icons/caret.svg";
 import { ReactComponent as TrashIcon } from "../../../../img/icons/trash.svg";
-import trashIcon from "../../../../img/icons/trash.svg";
 import loader from "../../../../img/preloader/loading.gif";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -28,7 +27,7 @@ let OrderCard = ({
         total: quantity,
       });
     }
-  }, [quantity]);
+  }, [quantity, id, setQuantinyTh, total]);
 
   return (
     <div

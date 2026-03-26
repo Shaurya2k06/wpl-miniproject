@@ -9,19 +9,19 @@ import {
 import { filtersApi } from "./../../../common/FiltersApi/FiltersApi";
 import loader from "../../../../img/preloader/loading.gif";
 
-let SneakersResultContainer = (props) => {
+let SneakersResultContainer = ({ getSneakersTh, data, filtersData, favorites, addFavoriteTh, deleteFavoriteTh }) => {
   useEffect(() => {
-    props.getSneakersTh();
-  }, []);
+    getSneakersTh();
+  }, [getSneakersTh]);
 
   let newData =
-    props.data && filtersApi.filterByBrand(props.filtersData.brand, props.data);
-  newData = newData && filtersApi.filterByYear(props.filtersData.year, newData);
-  newData = newData && filtersApi.filterBySize(props.filtersData.size, newData);
+    data && filtersApi.filterByBrand(filtersData.brand, data);
+  newData = newData && filtersApi.filterByYear(filtersData.year, newData);
+  newData = newData && filtersApi.filterBySize(filtersData.size, newData);
   newData =
-    newData && filtersApi.filterByPrice(props.filtersData.price, newData);
+    newData && filtersApi.filterByPrice(filtersData.price, newData);
   newData =
-    newData && filtersApi.filterByModel(props.filtersData.model, newData);
+    newData && filtersApi.filterByModel(filtersData.model, newData);
   return (
     <div
       id="sneakerResultContainer"
@@ -30,13 +30,13 @@ let SneakersResultContainer = (props) => {
         height: "100%",
       }}
     >
-      {!!props.data !== false ? (
+      {!!data !== false ? (
         <div style={{ height: "inherit" }}>
           <SneakersResult
             sneakersData={newData}
-            favorites={props.favorites}
-            addFavorite={props.addFavoriteTh}
-            deleteFavorite={props.deleteFavoriteTh}
+            favorites={favorites}
+            addFavorite={addFavoriteTh}
+            deleteFavorite={deleteFavoriteTh}
           />
         </div>
       ) : (

@@ -3,6 +3,13 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
 
+const brands = {
+  nike: "Nike",
+  adidas: "adidas",
+  airJordan: "Air Jordan",
+  bape: "BAPE",
+};
+
 let BrandFilter = ({ setFilterData, clearFilters }) => {
   const { t } = useTranslation();
   let [filterMode, changeFilterMode] = useState(false);
@@ -12,12 +19,6 @@ let BrandFilter = ({ setFilterData, clearFilters }) => {
     airJordan: false,
     bape: false,
   });
-  let brands = {
-    nike: "Nike",
-    adidas: "adidas",
-    airJordan: "Air Jordan",
-    bape: "BAPE",
-  };
 
   useEffect(() => {
     clearFilters &&
@@ -38,7 +39,7 @@ let BrandFilter = ({ setFilterData, clearFilters }) => {
     setFilterData((filters) => {
       return { ...filters, brand: checkFilter };
     });
-  }, [filter]);
+  }, [filter, setFilterData]);
 
   return (
     <div className={style.filterContainer}>

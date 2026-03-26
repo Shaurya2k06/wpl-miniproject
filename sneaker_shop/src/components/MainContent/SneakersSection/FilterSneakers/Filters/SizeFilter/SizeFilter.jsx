@@ -76,7 +76,7 @@ let SizeFilter = ({ setFilterData, clearFilters }) => {
     setFilterData((filters) => {
       return { ...filters, size: checkFilter };
     });
-  }, [filter]);
+  }, [filter, setFilterData]);
 
   return (
     <div className={style.filterContainer}>

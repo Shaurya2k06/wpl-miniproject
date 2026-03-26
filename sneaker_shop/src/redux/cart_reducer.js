@@ -1,7 +1,6 @@
 import { cartApi, favoritesApi } from "./../api/api";
 
 const GET_CART = "cart_reducer/GET_CART";
-const DELETE_ITEM = "cart_reducer/DELETE_ITEM";
 const GET_FAVORITES = "cart_reducer/GET_FAVORITES";
 const ADD_TO_FAVORITE = "cart_reducer/ADD_TO_FAVORITE";
 

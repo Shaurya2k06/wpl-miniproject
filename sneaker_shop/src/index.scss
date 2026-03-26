@@ -1,4 +1,4 @@
-@import "./themeStyle/variables.scss";
+@use "./themeStyle/variables.scss" as *;
 
 html,
 body {

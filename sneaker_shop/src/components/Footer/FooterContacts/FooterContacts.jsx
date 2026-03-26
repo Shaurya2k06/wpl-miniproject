@@ -8,11 +8,11 @@ import style from "./FooterContacts.module.scss";
 let FooterContacts = () => {
   return (
     <div className={style.footerContacts}>
-      <p>Sergio Diorov</p>
+      <p>WPL</p>
       <ul>
         <li>
           <a
-            href="https://www.linkedin.com/in/sergiy-diorov-673a59254/"
+            href="https://www.linkedin.com/in/shaurya2k06/"
             title="LinkedIn"
             target="_blank"
             rel="noreferrer"
@@ -22,7 +22,7 @@ let FooterContacts = () => {
         </li>
         <li>
           <a
-            href="https://github.com/Sergittko"
+            href="https://github.com/shaurya2k06"
             title="GitHub"
             target="_blank"
             rel="noreferrer"
@@ -32,7 +32,7 @@ let FooterContacts = () => {
         </li>
         <li>
           <a
-            href="https://mailto:derov180214@gmail.com"
+            href="https://mailto:krrish.b@somaiya.edu"
             title="Gmail"
             target="_blank"
             rel="noreferrer"
@@ -42,7 +42,7 @@ let FooterContacts = () => {
         </li>
         <li>
           <a
-            href="https://www.instagram.com/sergio_d_10/"
+            href="https://www.instagram.com/pranav_skn/"
             title="Instagram"
             target="_blank"
             rel="noreferrer"
@@ -52,7 +52,7 @@ let FooterContacts = () => {
         </li>
         <li>
           <a
-            href="tg://resolve?domain=sergitto"
+            href="tg://resolve?domain=shaurya2k06"
             title="Telegram"
             target="_blank"
             rel="noreferrer"
