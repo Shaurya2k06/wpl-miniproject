@@ -35,8 +35,7 @@ export default function Footer() {
           <PinterestIcon className="cursor-pointer" />
         </div>
         <p className="text-gray-500 text-[13px]">
-          MADE WITH <FavoriteIcon className="text-white text-[16px]" /> BY
-          MOHAMED SABER CHKIRI
+          MADE WITH <FavoriteIcon className="text-white text-[16px]" /> BY PSK
         </p>
       </div>
 
