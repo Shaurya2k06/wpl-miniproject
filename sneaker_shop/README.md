@@ -11,7 +11,6 @@
 #### This is a pet project, Sneaker Shop site. It has next features: 
 * Single Page Application.
 * Adaptive and responsive layout.
-* Language switcher (two languages: english an ukrainian).
 * Theme switcher (light and dark themes).
 * Redux store to save shoes, cart and favorites.
 * Get, post, put and delete requests to get sneakers data.
