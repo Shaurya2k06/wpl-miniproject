@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import classNames from "classnames";
 
 let Header = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [activeBurger, setActiveBurger] = useState(false);
 
