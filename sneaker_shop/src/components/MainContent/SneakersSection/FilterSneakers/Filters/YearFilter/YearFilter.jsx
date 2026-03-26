@@ -10,12 +10,6 @@ let YearFilter = ({ setFilterData, clearFilters }) => {
   let [inputTo, changeInputTo] = useState(2023);
   const { t } = useTranslation();
 
-  useEffect(() => {
-    clearFilters && changeInputFrom(1994);
-    clearFilters && changeInputTo(2023);
-    applyYear();
-  }, [clearFilters, applyYear]);
-
   let applyYear = useCallback(() => {
     if (inputFrom > inputTo) {
       return showError(t("sneakersSection.filterErrors.yearBiggerLower"));
@@ -32,6 +26,12 @@ let YearFilter = ({ setFilterData, clearFilters }) => {
       return { ...filters, year: { from: +inputFrom, to: +inputTo } };
     });
   }, [inputFrom, inputTo, setFilterData, showError, t]);
+
+  useEffect(() => {
+    clearFilters && changeInputFrom(1994);
+    clearFilters && changeInputTo(2023);
+    applyYear();
+  }, [clearFilters, applyYear]);
 
   return (
     <div className={style.filterContainer}>
