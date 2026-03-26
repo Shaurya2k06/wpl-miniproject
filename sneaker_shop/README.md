@@ -105,22 +105,13 @@ npm start
 
 ## 📸 Preview
 
-> Add screenshots or demo link here
+<img width="1692" height="888" alt="image" src="https://github.com/user-attachments/assets/0eb2ddd9-c2dc-4cef-be94-c3f786d93061" />
+
 
 ---
 
-## 🤝 Contributing
 
-This is a personal project, but suggestions and improvements are always welcome!
 
----
+## 👨‍💻 Authors
 
-## 📜 License
-
-This project is open-source and available under the MIT License.
-
----
-
-## 👨‍💻 Author
-
-Developed with ❤️ using React
+Krrish,Pranav and Shaurya.
