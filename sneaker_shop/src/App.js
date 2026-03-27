@@ -13,11 +13,16 @@ import FavoritesContainer from "./components/MainContent/FavoritesSection/Favori
 import PlaceOrder from "./components/MainContent/CartSection/PlaceOrder/PlaceOrder";
 import { useEffect } from "react";
 import { initializeApp } from "./redux/app_reducer";
+import { initializeSessionTh } from "./redux/auth_reducer";
+import Login from "./components/Auth/Login";
+import Register from "./components/Auth/Register";
+import AdminBoard from "./components/Admin/AdminBoard";
 
-let App = ({ initializeApp, isInitialized }) => {
+let App = ({ initializeApp, initializeSessionTh, isInitialized }) => {
   useEffect(() => {
+    initializeSessionTh();
     initializeApp();
-  }, [initializeApp]);
+  }, [initializeApp, initializeSessionTh]);
 
   return isInitialized ? (
     <div className={style.appWrapper}>
@@ -31,6 +36,9 @@ let App = ({ initializeApp, isInitialized }) => {
             <Route path="/cart" element={<CartContainer />} />
             <Route path="/cart/place_order" element={<PlaceOrder />} />
             <Route path="/favorites" element={<FavoritesContainer />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/admin" element={<AdminBoard />} />
             <Route path="*" element={<Preloader />} />
           </Routes>
         </ScrollToTop>
@@ -48,6 +56,7 @@ App = connect(
   },
   {
     initializeApp,
+    initializeSessionTh,
   }
 )(App);
 

@@ -68,6 +68,22 @@
         .active {
           background-color: var(#{--components-hover-default});
         }
+        .authButton {
+          background: none;
+          border: none;
+          font: inherit;
+          text-transform: inherit;
+          color: var(#{--body-text-color-default});
+          padding: 26px 12px;
+          cursor: pointer;
+          transition: 0.2s;
+          &:hover {
+            background-color: var(#{--body-background-default});
+          }
+          &:active {
+            background-color: var(#{--components-hover-default});
+          }
+        }
       }
     }
   }

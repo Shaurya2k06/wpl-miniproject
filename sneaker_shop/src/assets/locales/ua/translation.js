@@ -3,6 +3,9 @@ export const ua = {
     main: "Головна",
     sneakers: "Кросівки",
     cart: "Кошик",
+    login: "Увійти",
+    logout: "Вийти",
+    admin: "Адмін",
   },
 
   sneakersSection: {
@@ -140,5 +143,43 @@ export const ua = {
     incorrectZip: "неправильний поштовий індекс",
     wrongNumberDigits: "неправильна кількість цифр",
     incorrectTelephone: "неправильний номер телефону",
+  },
+
+  auth: {
+    welcomeTitle: "Ласкаво просимо до Sneaker Shop",
+    selectRole: "Будь ласка, оберіть, як ви хочете продовжити:",
+    roles: {
+      customerTitle: "Покупець (Sneaker Head)",
+      customerDesc: "Переглядайте та купуйте найновіші кросівки.",
+      ownerTitle: "Власник бізнесу",
+      ownerDesc: "Керуйте своїм магазином та переглядайте аналітику.",
+    },
+    login: "Увійти",
+    loggingAs: "Вхід як",
+    email: "Email",
+    password: "Пароль",
+    noAccount: "Немає акаунту?",
+    registerLink: "Зареєструватися",
+    changeRole: "Змінити роль",
+    register: "Створити акаунт",
+    joinUs: "Приєднуйтесь до спільноти Sneaker Shop",
+    confirmPassword: "Підтвердіть пароль",
+    haveAccount: "Вже маєте акаунт?",
+    loginLink: "Увійти тут",
+  },
+
+  admin: {
+    dashboard: "Панель керування",
+    welcome: "З поверненням",
+    totalSales: "Загальний обсяг продажів",
+    orders: "Замовлення",
+    inventory: "Інвентар",
+    salesPerformance: "Продажі (6 місяців)",
+    brandDistribution: "Розподіл брендів",
+    recentOrders: "Останні замовлення",
+    orderId: "ID замовлення",
+    product: "Товар",
+    quantity: "К-ть",
+    total: "Всього",
   },
 };
