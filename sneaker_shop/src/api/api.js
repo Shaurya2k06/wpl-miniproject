@@ -49,3 +49,12 @@ export const favoritesApi = {
     return mainInstance.delete("favorites/" + id);
   },
 };
+
+export const authApi = {
+  getUsers() {
+    return instance.get("users"); // In a real app this would be a POST login request
+  },
+  register(data) {
+    return instance.post("users", data);
+  },
+};

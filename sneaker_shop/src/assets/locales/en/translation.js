@@ -3,6 +3,9 @@ export const en = {
     main: "Main",
     sneakers: "Sneakers",
     cart: "Cart",
+    login: "Login",
+    logout: "Logout",
+    admin: "Admin",
   },
 
   sneakersSection: {
@@ -139,5 +142,43 @@ export const en = {
     incorrectZip: "incorrect zip code",
     wrongNumberDigits: "wrong number of digits",
     incorrectTelephone: "incorrect telephone number",
+  },
+
+  auth: {
+    welcomeTitle: "Welcome to Sneaker Shop",
+    selectRole: "Please select how you want to continue:",
+    roles: {
+      customerTitle: "Sneaker Head",
+      customerDesc: "Browse and buy the latest kicks.",
+      ownerTitle: "Business Owner",
+      ownerDesc: "Manage your store and view analytics.",
+    },
+    login: "Login",
+    loggingAs: "Logging in as",
+    email: "Email",
+    password: "Password",
+    noAccount: "Don't have an account?",
+    registerLink: "Register here",
+    changeRole: "Change Role",
+    register: "Create Account",
+    joinUs: "Join the Sneaker Community",
+    confirmPassword: "Confirm Password",
+    haveAccount: "Already have an account?",
+    loginLink: "Register here",
+  },
+
+  admin: {
+    dashboard: "Admin Dashboard",
+    welcome: "Welcome back",
+    totalSales: "Total Sales",
+    orders: "Orders",
+    inventory: "Inventory",
+    salesPerformance: "Sales Performance (6 Months)",
+    brandDistribution: "Brand Distribution",
+    recentOrders: "Recent Orders",
+    orderId: "Order ID",
+    product: "Product",
+    quantity: "Qty",
+    total: "Total",
   },
 };

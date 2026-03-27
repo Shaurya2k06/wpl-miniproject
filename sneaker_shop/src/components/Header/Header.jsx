@@ -8,8 +8,10 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import classNames from "classnames";
+import { connect } from "react-redux";
+import { logout } from "../../redux/auth_reducer";
 
-let Header = () => {
+let Header = ({ isAuth, role, logout }) => {
   const { t } = useTranslation();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [activeBurger, setActiveBurger] = useState(false);
@@ -70,6 +72,34 @@ let Header = () => {
                 >
                   {t("menu.cart")}
                 </NavLink>
+              </li>
+              {role === 'owner' && (
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? style.active : undefined
+                    }
+                    to="/admin"
+                  >
+                    {t("menu.admin") || "Admin"}
+                  </NavLink>
+                </li>
+              )}
+              <li>
+                {isAuth ? (
+                  <button onClick={logout} className={style.authButton}>
+                    {t("menu.logout") || "Logout"}
+                  </button>
+                ) : (
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? style.active : undefined
+                    }
+                    to="/login"
+                  >
+                    {t("menu.login") || "Login"}
+                  </NavLink>
+                )}
               </li>
             </ul>
           </nav>
@@ -149,6 +179,34 @@ let Header = () => {
                     {t("menu.cart")}
                   </NavLink>
                 </li>
+                {role === 'owner' && (
+                  <li onClick={() => setActiveBurger(false)}>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? style.active : undefined
+                      }
+                      to="/admin"
+                    >
+                      {t("menu.admin") || "Admin"}
+                    </NavLink>
+                  </li>
+                )}
+                <li onClick={() => setActiveBurger(false)}>
+                  {isAuth ? (
+                    <button onClick={logout} className={style.authButton}>
+                      {t("menu.logout") || "Logout"}
+                    </button>
+                  ) : (
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? style.active : undefined
+                      }
+                      to="/login"
+                    >
+                      {t("menu.login") || "Login"}
+                    </NavLink>
+                  )}
+                </li>
               </ul>
             </nav>
 
@@ -163,4 +221,10 @@ let Header = () => {
   );
 };
 
-export default Header;
+export default connect(
+  (state) => ({
+    isAuth: state.auth.isAuth,
+    role: state.auth.role,
+  }),
+  { logout }
+)(Header);

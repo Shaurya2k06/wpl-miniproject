@@ -4,12 +4,14 @@ import thunkMiddleware from "redux-thunk";
 import cartReducer from "./cart_reducer";
 import mainReducer from "./main_reducer";
 import appReducer from "./app_reducer";
+import authReducer from "./auth_reducer";
 
 let reducers = combineReducers({
   sneakers: sneakersReducer,
   cart: cartReducer,
   main: mainReducer,
   app: appReducer,
+  auth: authReducer,
 });
 
 let store = createStore(reducers, applyMiddleware(thunkMiddleware));

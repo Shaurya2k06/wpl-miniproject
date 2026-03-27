@@ -1,0 +1,121 @@
+@use "../../themeStyle/variables.scss" as *;
+
+.authContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  padding: 40px 20px;
+  max-width: 500px;
+  margin: 0 auto;
+
+  h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(#{--body-text-color-default});
+  }
+
+  .roleSelector {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+
+    .roleCard {
+      flex: 1;
+      padding: 30px 20px;
+      background-color: var(#{--components-background-default});
+      border: 1px solid var(#{--border-items-default});
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: var(#{--components-hover-default});
+        transform: translateY(-5px);
+        border-color: var(#{--button-background-default});
+      }
+
+      h3 {
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      p {
+        font-size: 14px;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .inputGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      label {
+        font-size: 12px;
+        text-transform: uppercase;
+        font-weight: bold;
+        opacity: 0.8;
+      }
+
+      input, select {
+        padding: 12px;
+        border: 1px solid var(#{--border-items-default});
+        background-color: var(#{--components-background-default});
+        color: var(#{--body-text-color-default});
+        font-size: 16px;
+        outline: none;
+
+        &:focus {
+          border-color: var(#{--button-background-default});
+        }
+      }
+    }
+
+    .error {
+      color: #ff4d4f;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 16px;
+      background-color: var(#{--button-background-default});
+      color: #fff;
+      border: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        filter: contrast(0.7);
+      }
+    }
+  }
+
+  .switchAuth {
+    margin-top: 20px;
+    font-size: 14px;
+    
+    a {
+      color: var(#{--body-text-color-default});
+      font-weight: bold;
+      text-decoration: underline;
+      margin-left: 5px;
+    }
+  }
+}
