@@ -97,10 +97,10 @@ npm start
 
 ##  Future Enhancements
 
-* 🔐 User authentication system
-* 💳 Payment gateway integration
-* 📦 Order tracking system
-* 🤖 AI-based product recommendations
+*  User authentication system
+*  Payment gateway integration
+*  Order tracking system
+*  AI-based product recommendations
 
 ---
 
