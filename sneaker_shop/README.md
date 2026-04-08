@@ -1,16 +1,16 @@
-# 👟 Sneakers Shop
+#  Sneakers Shop
 
 A modern **React-based sneaker e-commerce web application** designed with a focus on performance, scalability, and user experience.
 
 ---
 
-## 🚀 Overview
+##  Overview
 
 Sneakers Shop is a **Single Page Application (SPA)** that allows users to explore, filter, and purchase sneakers through an interactive and responsive interface. The application leverages modern frontend technologies to deliver a seamless and dynamic shopping experience.
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 * **Frontend:** React.js, React Router
 * **State Management:** Redux, Redux Thunk
@@ -20,39 +20,39 @@ Sneakers Shop is a **Single Page Application (SPA)** that allows users to explor
 
 ---
 
-## ✨ Key Features
+##  Key Features
 
-* 🛍️ **Dynamic Product Catalog**
+*  **Dynamic Product Catalog**
   Browse sneakers with real-time updates and smooth UI transitions
 
-* 🔍 **Advanced Filtering & Sorting**
+*  **Advanced Filtering & Sorting**
   Filter by brand, price, and categories
   Sort by price, newest, trending, or relevance
 
-* 🛒 **Cart & Wishlist System**
+*  **Cart & Wishlist System**
   Add/remove items with global state management using Redux
 
-* 🌐 **Single Page Application (SPA)**
+*  **Single Page Application (SPA)**
   Fast navigation using client-side routing (React Router)
 
-* 🎨 **Theme Switcher**
+*  **Theme Switcher**
   Toggle between light and dark modes with persistent preference
 
-* 📱 **Responsive Design**
+*  **Responsive Design**
   Fully optimized for mobile, tablet, and desktop
 
-* 📄 **Pagination System**
+*  **Pagination System**
   Efficient data handling with page-wise product loading
 
-* ✅ **Form Validation**
+*  **Form Validation**
   Ensures proper user input handling
 
-* 🔄 **CRUD Operations**
+*  **CRUD Operations**
   Fetch, create, update, and delete sneaker data via REST API
 
 ---
 
-## 🧠 Architecture Highlights
+##  Architecture Highlights
 
 * Component-based structure for reusability
 * Centralized state management using Redux
@@ -62,7 +62,7 @@ Sneakers Shop is a **Single Page Application (SPA)** that allows users to explor
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```
 src/
@@ -76,7 +76,7 @@ src/
 
 ---
 
-## ⚙️ Installation & Setup
+##  Installation & Setup
 
 ```bash
 # Clone the repository
@@ -94,7 +94,7 @@ npm start
 
 ---
 
-## 🌟 Future Enhancements
+##  Future Enhancements
 
 * 🔐 User authentication system
 * 💳 Payment gateway integration
@@ -103,7 +103,7 @@ npm start
 
 ---
 
-## 📸 Preview
+##  Preview
 
 <img width="1692" height="888" alt="image" src="https://github.com/user-attachments/assets/0eb2ddd9-c2dc-4cef-be94-c3f786d93061" />
 <img width="1683" height="896" alt="image" src="https://github.com/user-attachments/assets/bde7c71c-e422-4886-9037-7526732bfc39" />
@@ -113,6 +113,6 @@ npm start
 
 
 
-## 👨‍💻 Authors
+##  Authors
 
-Krrish,Pranav and Shaurya.
+Krrish, Pranav and Shaurya.
