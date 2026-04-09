@@ -1,7 +1,5 @@
 import axios from "axios";
-
-const API_KEY = "KICKS-BCDB-73CF-A6F8-598CD3779D1F";
-
+const API_KEY = process.env.REACT_APP_KICKSDB_API_KEY || "";
 const kicksClient = axios.create({
   baseURL: "https://api.kicks.dev/v3/",
   headers: {
