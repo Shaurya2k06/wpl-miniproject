@@ -1,7 +1,8 @@
 import { useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import style from "./SneakersPage.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { kicksDbApi } from "../../../../api/kicksDbApi";
 import Delivery from "./DeliverySection/Delivery";
 import Recommended from "./RecommendedSection/Recommended";
 import { NavLink } from "react-router-dom";
@@ -12,6 +13,13 @@ let SneakersPage = ({ addToCart, staffPics }) => {
   let { state } = useLocation();
   let [selectedSize, setSize] = useState(null);
   let [isItemAdded, setItemAdded] = useState(false);
+  let [marketPrices, setMarketPrices] = useState(null);
+  let [isLoadingMarket, setLoadingMarket] = useState(false);
+  let [mainDisplayImage, setMainDisplayImage] = useState(state.image);
+
+  useEffect(() => {
+    setMainDisplayImage(state.image);
+  }, [state.image]);
   let addToCartHandler = (state, size) => {
     let data = { ...state, size, total: 1 };
     addToCart(data);
@@ -45,11 +53,60 @@ let SneakersPage = ({ addToCart, staffPics }) => {
     "15.5",
   ];
 
+  useEffect(() => {
+    let fetchMarketData = async () => {
+      setLoadingMarket(true);
+      try {
+        let cleanName = state.name.replace(/['"]+/g, '');
+        const [stockXRes, goatRes] = await Promise.allSettled([
+          kicksDbApi.getPricesFromStockX(cleanName),
+          kicksDbApi.getPricesFromGOAT(cleanName)
+        ]);
+        
+        let fetchedData = { stockx: null, goat: null };
+        if (stockXRes.status === "fulfilled" && stockXRes.value.data.data.length > 0) {
+          fetchedData.stockx = stockXRes.value.data.data[0];
+        }
+        if (goatRes.status === "fulfilled" && goatRes.value.data.data.length > 0) {
+          fetchedData.goat = goatRes.value.data.data[0];
+        }
+        setMarketPrices(fetchedData);
+      } catch (error) {
+        console.error("Error fetching market data", error);
+      } finally {
+        setLoadingMarket(false);
+      }
+    };
+    if (state?.name) {
+      fetchMarketData();
+    }
+  }, [state.name]);
+
   return (
     <div className={style.pageContainer}>
       <div className={style.sneakerContainer}>
         <div className={style.sneakerImage}>
-          <img src={state.image} srcSet={state.srcSet} alt={state.name} />
+          <img src={mainDisplayImage} alt={state.name} />
+          
+          {marketPrices?.stockx?.gallery && marketPrices.stockx.gallery.length > 0 && (
+            <div className={style.thumbnailGallery}>
+              <div 
+                className={classNames(style.thumbnail, mainDisplayImage === state.image ? style.activeThumbnail : null)}
+                onClick={() => setMainDisplayImage(state.image)}
+              >
+                <img src={state.image} alt="Original Thumbnail" />
+              </div>
+              {marketPrices.stockx.gallery.slice(0, 3).map((imgUrl, i) => (
+                <div 
+                  key={i} 
+                  className={classNames(style.thumbnail, mainDisplayImage === imgUrl ? style.activeThumbnail : null)}
+                  onClick={() => setMainDisplayImage(imgUrl)}
+                >
+                  <img src={imgUrl} alt={`Gallery ${i}`} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         <div className={style.sneakerInfo}>
           <h2>{state.brand}</h2>
@@ -57,6 +114,61 @@ let SneakersPage = ({ addToCart, staffPics }) => {
           <div className={style.price}>
             <span>${state.price}</span>
           </div>
+
+          <div className={style.marketPricesContainer}>
+            <span className={style.marketPricesTitle}>Secondary Market Level</span>
+            {isLoadingMarket ? (
+              <div className={style.loadingText}>Fetching live market data...</div>
+            ) : marketPrices ? (
+              <div className={style.marketPlatforms}>
+                <div className={style.platformCard}>
+                  <span className={style.platformName}>StockX</span>
+                  {marketPrices.stockx ? (
+                    <a href={marketPrices.stockx.link} target="_blank" rel="noreferrer" className={style.platformLink}>
+                      $ {marketPrices.stockx.min_price || marketPrices.stockx.avg_price || '---'}
+                    </a>
+                  ) : (
+                    <span className={style.platformUnavailable}>N/A</span>
+                  )}
+                </div>
+                <div className={style.platformCard}>
+                  <span className={style.platformName}>GOAT</span>
+                  {marketPrices.goat ? (
+                    <a href={marketPrices.goat.link} target="_blank" rel="noreferrer" className={style.platformLink}>
+                      $ {marketPrices.goat.min_price || marketPrices.goat.avg_price || '---'}
+                    </a>
+                  ) : (
+                    <span className={style.platformUnavailable}>N/A</span>
+                  )}
+                </div>
+              </div>
+            ) : null}
+          </div>
+
+          {marketPrices?.stockx && (
+            <div className={style.richMetadataContainer}>
+              <div className={style.specsGrid}>
+                <div className={style.specItem}>
+                  <span className={style.specLabel}>SKU</span>
+                  <span className={style.specValue}>{marketPrices.stockx.sku || 'N/A'}</span>
+                </div>
+                <div className={style.specItem}>
+                  <span className={style.specLabel}>Category</span>
+                  <span className={style.specValue}>{marketPrices.stockx.category || 'N/A'}</span>
+                </div>
+                <div className={style.specItem}>
+                  <span className={style.specLabel}>Weekly Demand</span>
+                  <span className={style.specValue}>{marketPrices.stockx.weekly_orders || '0'}</span>
+                </div>
+              </div>
+              {marketPrices.stockx.description && (
+                <div className={style.productDescription}>
+                  <h3>Original Story</h3>
+                  <p dangerouslySetInnerHTML={{ __html: marketPrices.stockx.description }}></p>
+                </div>
+              )}
+            </div>
+          )}
           <span className={style.size}>{t("sneakerPage.size")} us</span>
 
           <div
