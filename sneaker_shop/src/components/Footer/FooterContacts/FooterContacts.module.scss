@@ -1,4 +1,5 @@
 .footerContacts {
+  min-width: 170px;
   p {
     margin: 0 0 5px 0;
     padding: 0;
@@ -12,7 +13,6 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
-    direction: rtl;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -22,6 +22,9 @@
       background-color: #8f8f8f;
       padding: 5px;
       border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
       transition: 0.2s;
       &:hover {
@@ -37,6 +40,7 @@
 
 @media only screen and (max-width: 760px) {
   .footerContacts {
+    min-width: unset;
     p {
       text-align: left !important;
     }

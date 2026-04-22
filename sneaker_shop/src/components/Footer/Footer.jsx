@@ -6,13 +6,11 @@ let Footer = () => {
   return (
     <footer className={style.footerContainer}>
       <div className={style.footerContent}>
-        <div className={style.logo}>
-          <img src={logo} alt="logo" />
-          <h2>Sneakers Shop</h2>
-
-
-
-
+        <div className={style.footerTopRow}>
+          <div className={style.logo}>
+            <img src={logo} alt="Sneaker Shop logo" />
+            <h2>Sneaker Shop</h2>
+          </div>
           <FooterContacts />
         </div>
       </div>
