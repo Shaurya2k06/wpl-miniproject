@@ -19,7 +19,13 @@ export const kicksDbApi = {
   getPricesFromStockX(query) {
     return kicksClient.get(`stockx/products?query=${encodeURIComponent(query)}`);
   },
+  getStockXProductById(id) {
+    return kicksClient.get(`stockx/products/${encodeURIComponent(id)}`);
+  },
   getPricesFromGOAT(query) {
     return kicksClient.get(`goat/products?query=${encodeURIComponent(query)}`);
+  },
+  getGOATProductById(id) {
+    return kicksClient.get(`goat/products/${encodeURIComponent(id)}`);
   },
 };

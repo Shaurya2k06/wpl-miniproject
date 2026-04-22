@@ -17,6 +17,43 @@ let SneakersPage = ({ addToCart, staffPics }) => {
   let [isLoadingMarket, setLoadingMarket] = useState(false);
   let [mainDisplayImage, setMainDisplayImage] = useState(state.image);
 
+  const normalizeSize = (value) => {
+    if (value === undefined || value === null) {
+      return "";
+    }
+
+    const extracted = String(value).match(/\d+(\.\d+)?/);
+    const source = extracted ? extracted[0] : value;
+    const numeric = Number.parseFloat(source);
+    return Number.isNaN(numeric) ? String(value) : numeric.toString();
+  };
+
+  const getPriceForSelectedSize = (variants, size) => {
+    if (!Array.isArray(variants) || !size) {
+      return null;
+    }
+
+    const normalizedSelectedSize = normalizeSize(size);
+    const matchedVariant = variants.find((variant) => {
+      if (variant?.size === undefined || variant?.size === null) {
+        return false;
+      }
+      return normalizeSize(variant.size) === normalizedSelectedSize;
+    });
+
+    if (!matchedVariant) {
+      return null;
+    }
+
+    return (
+      matchedVariant.lowest_ask ??
+      matchedVariant.price ??
+      matchedVariant.ask ??
+      matchedVariant.amount ??
+      null
+    );
+  };
+
   useEffect(() => {
     setMainDisplayImage(state.image);
   }, [state.image]);
@@ -63,12 +100,19 @@ let SneakersPage = ({ addToCart, staffPics }) => {
           kicksDbApi.getPricesFromGOAT(cleanName)
         ]);
         
-        let fetchedData = { stockx: null, goat: null };
+        let fetchedData = { stockx: null, goat: null, goatVariants: [] };
         if (stockXRes.status === "fulfilled" && stockXRes.value.data.data.length > 0) {
           fetchedData.stockx = stockXRes.value.data.data[0];
         }
         if (goatRes.status === "fulfilled" && goatRes.value.data.data.length > 0) {
           fetchedData.goat = goatRes.value.data.data[0];
+
+          const goatId = fetchedData.goat?.id;
+          if (goatId) {
+            const goatDetailsRes = await kicksDbApi.getGOATProductById(goatId);
+            fetchedData.goat = goatDetailsRes?.data?.data || fetchedData.goat;
+            fetchedData.goatVariants = goatDetailsRes?.data?.data?.variants || [];
+          }
         }
         setMarketPrices(fetchedData);
       } catch (error) {
@@ -81,6 +125,18 @@ let SneakersPage = ({ addToCart, staffPics }) => {
       fetchMarketData();
     }
   }, [state.name]);
+
+  const selectedGoatPrice = getPriceForSelectedSize(
+    marketPrices?.goatVariants,
+    selectedSize
+  );
+  const stockxDisplayPrice =
+    marketPrices?.stockx?.min_price || marketPrices?.stockx?.avg_price || "---";
+  const goatDisplayPrice =
+    selectedGoatPrice ??
+    marketPrices?.goat?.min_price ??
+    marketPrices?.goat?.avg_price ??
+    "---";
 
   return (
     <div className={style.pageContainer}>
@@ -112,7 +168,14 @@ let SneakersPage = ({ addToCart, staffPics }) => {
           <h2>{state.brand}</h2>
           <h1>{state.name}</h1>
           <div className={style.price}>
-            <span>${state.price}</span>
+            <div className={style.primaryMarketPrice}>
+              <span className={style.primaryMarketLabel}>StockX</span>
+              <span className={style.primaryMarketValue}>${stockxDisplayPrice}</span>
+            </div>
+            <div className={style.primaryMarketPrice}>
+              <span className={style.primaryMarketLabel}>GOAT</span>
+              <span className={style.primaryMarketValue}>${goatDisplayPrice}</span>
+            </div>
           </div>
 
           <div className={style.marketPricesContainer}>
@@ -124,9 +187,16 @@ let SneakersPage = ({ addToCart, staffPics }) => {
                 <div className={style.platformCard}>
                   <span className={style.platformName}>StockX</span>
                   {marketPrices.stockx ? (
-                    <a href={marketPrices.stockx.link} target="_blank" rel="noreferrer" className={style.platformLink}>
-                      $ {marketPrices.stockx.min_price || marketPrices.stockx.avg_price || '---'}
-                    </a>
+                    <>
+                      <a href={marketPrices.stockx.link} target="_blank" rel="noreferrer" className={style.platformLink}>
+                        $ {stockxDisplayPrice}
+                      </a>
+                      {selectedSize && (
+                        <span className={style.platformSubHint}>
+                          Product-level price
+                        </span>
+                      )}
+                    </>
                   ) : (
                     <span className={style.platformUnavailable}>N/A</span>
                   )}
@@ -134,15 +204,27 @@ let SneakersPage = ({ addToCart, staffPics }) => {
                 <div className={style.platformCard}>
                   <span className={style.platformName}>GOAT</span>
                   {marketPrices.goat ? (
-                    <a href={marketPrices.goat.link} target="_blank" rel="noreferrer" className={style.platformLink}>
-                      $ {marketPrices.goat.min_price || marketPrices.goat.avg_price || '---'}
-                    </a>
+                    <>
+                      <a href={marketPrices.goat.link} target="_blank" rel="noreferrer" className={style.platformLink}>
+                        $ {goatDisplayPrice}
+                      </a>
+                      {selectedSize && (
+                        <span className={style.platformSubHint}>
+                          Size-level ask
+                        </span>
+                      )}
+                    </>
                   ) : (
                     <span className={style.platformUnavailable}>N/A</span>
                   )}
                 </div>
               </div>
             ) : null}
+            {selectedSize && (
+              <div className={style.selectedSizeHint}>
+                Selected size US {selectedSize}
+              </div>
+            )}
           </div>
 
           {marketPrices?.stockx && (
