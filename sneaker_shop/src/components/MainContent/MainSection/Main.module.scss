@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&display=swap');
+
 .mainContainer {
   padding: 0 24px;
   .sectionHeaeder {
@@ -36,20 +38,33 @@
         max-width: 600px;
         h1 {
           color: rgb(255, 255, 255);
-          font-size: 50px;
+          font-size: 64px;
           font-weight: 700;
-          letter-spacing: -1px;
+          font-family: 'Oswald', sans-serif;
+          letter-spacing: 1px;
           line-height: 1.1;
           text-transform: uppercase;
+          text-shadow: 0 4px 12px rgba(0,0,0,0.4);
+          margin: 0;
         }
         a {
-          font-size: 16px;
-          font-weight: 500;
-          color: rgb(255, 255, 255);
+          display: inline-block;
+          font-size: 14px;
+          font-weight: 600;
+          color: #000;
+          background-color: #fff;
+          padding: 16px 36px;
           cursor: pointer;
-          margin-top: 20 px;
-          text-decoration: underline;
-          text-transform: capitalize;
+          margin-top: 30px;
+          text-decoration: none;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          transition: all 0.3s ease;
+          border: 1px solid #fff;
+          &:hover {
+            background-color: transparent;
+            color: #fff;
+          }
         }
       }
     }
