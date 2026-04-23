@@ -15,7 +15,7 @@ const Login = ({ loginTh, isAuth, authError, role }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    loginTh(email, password);
+    loginTh(email, password, selectedRole);
   };
 
   if (!selectedRole) {
@@ -81,3 +81,4 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { loginTh })(Login);
+

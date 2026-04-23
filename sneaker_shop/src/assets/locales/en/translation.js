@@ -3,9 +3,32 @@ export const en = {
     main: "Main",
     sneakers: "Sneakers",
     cart: "Cart",
+    myOrders: "My orders",
     login: "Login",
-    logout: "Logout",
+    logout: "Log out",
     admin: "Admin",
+  },
+
+  accountMenu: {
+    open: "Account menu",
+    signedInAs: "Signed in as",
+    accountType: "Account type",
+    roleCustomer: "Customer",
+    roleOwner: "Business",
+  },
+
+  ordersSection: {
+    title: "My orders",
+    subtitle: "Track purchases and order details",
+    empty: "You have not placed any orders yet.",
+    shop: "Browse sneakers",
+    orderNumber: "Order",
+    placed: "Placed",
+    status: "Status",
+    total: "Total",
+    items: "Items in this order",
+    size: "Size",
+    loadError: "We could not load your orders. Please try again.",
   },
 
   sneakersSection: {
@@ -114,7 +137,9 @@ export const en = {
       title: "Order confirmed",
       hint: "wait for our manager's response by e-mail",
       button: "Back to Main",
+      viewOrders: "View my orders",
     },
+    submitError: "Could not place order. Try again.",
     title: "SHIPPING INFORMATION",
     email: "Your Email Address",
     name: "Full Name",

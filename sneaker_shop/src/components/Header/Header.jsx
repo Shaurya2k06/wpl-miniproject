@@ -10,8 +10,9 @@ import { useState, useEffect } from "react";
 import classNames from "classnames";
 import { connect } from "react-redux";
 import { logout } from "../../redux/auth_reducer";
+import AccountMenu from "./AccountMenu";
 
-let Header = ({ isAuth, role, logout }) => {
+let Header = ({ isAuth, role, email, logout }) => {
   const { t } = useTranslation();
   const [windowSize, setWindowSize] = useState(window.innerWidth);
   const [activeBurger, setActiveBurger] = useState(false);
@@ -73,7 +74,19 @@ let Header = ({ isAuth, role, logout }) => {
                   {t("menu.cart")}
                 </NavLink>
               </li>
-              {role === 'owner' && (
+              {isAuth && role === "user" && (
+                <li>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive ? style.active : undefined
+                    }
+                    to="/orders"
+                  >
+                    {t("menu.myOrders")}
+                  </NavLink>
+                </li>
+              )}
+              {role === "owner" && (
                 <li>
                   <NavLink
                     className={({ isActive }) =>
@@ -85,12 +98,8 @@ let Header = ({ isAuth, role, logout }) => {
                   </NavLink>
                 </li>
               )}
-              <li>
-                {isAuth ? (
-                  <button onClick={logout} className={style.authButton}>
-                    {t("menu.logout") || "Logout"}
-                  </button>
-                ) : (
+              {!isAuth && (
+                <li>
                   <NavLink
                     className={({ isActive }) =>
                       isActive ? style.active : undefined
@@ -99,12 +108,15 @@ let Header = ({ isAuth, role, logout }) => {
                   >
                     {t("menu.login") || "Login"}
                   </NavLink>
-                )}
-              </li>
+                </li>
+              )}
             </ul>
           </nav>
           <div className={style.headerSwithers}>
             <FavoriteItems />
+            {isAuth && (
+              <AccountMenu email={email} role={role} logout={logout} />
+            )}
             <ThemeSwitcher />
           </div>
         </header>
@@ -179,7 +191,19 @@ let Header = ({ isAuth, role, logout }) => {
                     {t("menu.cart")}
                   </NavLink>
                 </li>
-                {role === 'owner' && (
+                {isAuth && role === "user" && (
+                  <li onClick={() => setActiveBurger(false)}>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive ? style.active : undefined
+                      }
+                      to="/orders"
+                    >
+                      {t("menu.myOrders")}
+                    </NavLink>
+                  </li>
+                )}
+                {role === "owner" && (
                   <li onClick={() => setActiveBurger(false)}>
                     <NavLink
                       className={({ isActive }) =>
@@ -191,12 +215,8 @@ let Header = ({ isAuth, role, logout }) => {
                     </NavLink>
                   </li>
                 )}
-                <li onClick={() => setActiveBurger(false)}>
-                  {isAuth ? (
-                    <button onClick={logout} className={style.authButton}>
-                      {t("menu.logout") || "Logout"}
-                    </button>
-                  ) : (
+                {!isAuth && (
+                  <li onClick={() => setActiveBurger(false)}>
                     <NavLink
                       className={({ isActive }) =>
                         isActive ? style.active : undefined
@@ -205,13 +225,21 @@ let Header = ({ isAuth, role, logout }) => {
                     >
                       {t("menu.login") || "Login"}
                     </NavLink>
-                  )}
-                </li>
+                  </li>
+                )}
               </ul>
             </nav>
 
             <div className={style.headerSwithers}>
               <FavoriteItems />
+              {isAuth && (
+                <AccountMenu
+                  email={email}
+                  role={role}
+                  logout={logout}
+                  onNavigate={() => setActiveBurger(false)}
+                />
+              )}
               <ThemeSwitcher />
             </div>
           </div>
@@ -225,6 +253,7 @@ export default connect(
   (state) => ({
     isAuth: state.auth.isAuth,
     role: state.auth.role,
+    email: state.auth.email,
   }),
   { logout }
 )(Header);

@@ -7,7 +7,7 @@ import {
   PieChart, Pie, Cell
 } from 'recharts';
 import { useEffect, useState } from "react";
-import { cartApi, sneakersApi } from "../../api/api";
+import { sneakersApi, adminApi } from "../../api/api";
 import Preloader from "../common/preloader/Preloader";
 
 const COLORS = ['#0088F1', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
@@ -27,41 +27,27 @@ const AdminBoard = ({ isAuth, role, email }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [sneakersRes, cartRes] = await Promise.all([
+        const [sneakersRes, statsRes] = await Promise.all([
           sneakersApi.getAllSneakers(),
-          cartApi.getCartOrder()
+          adminApi.stats(),
         ]);
 
         const sneakers = sneakersRes.data;
-        const orders = cartRes.data;
-
-        // Calculate Stats
-        const totalSales = orders.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-        
-        // Brand Distribution for Pie Chart
-        const brands = {};
-        sneakers.forEach(s => {
-          brands[s.brand] = (brands[s.brand] || 0) + 1;
-        });
-        const brandData = Object.keys(brands).map(key => ({ name: key, value: brands[key] }));
-
-        // Mock Sales Data for Bar Chart
-        const salesData = [
-          { name: 'Jan', sales: 4000 },
-          { name: 'Feb', sales: 3000 },
-          { name: 'Mar', sales: 2000 },
-          { name: 'Apr', sales: 2780 },
-          { name: 'May', sales: 1890 },
-          { name: 'Jun', sales: 2390 },
-        ];
+        const s = statsRes.data;
 
         setData({
-          totalSales: totalSales.toFixed(2),
-          totalOrders: orders.length,
-          totalSneakers: sneakers.length,
-          brandData,
-          salesData,
-          recentOrders: orders.slice(-5).reverse()
+          totalSales: s.totalSales,
+          totalOrders: s.totalOrders,
+          totalSneakers: s.totalSneakers || sneakers.length,
+          brandData: s.brandData?.length ? s.brandData : (() => {
+            const brands = {};
+            sneakers.forEach((item) => {
+              brands[item.brand] = (brands[item.brand] || 0) + 1;
+            });
+            return Object.keys(brands).map((key) => ({ name: key, value: brands[key] }));
+          })(),
+          salesData: s.salesData,
+          recentOrders: s.recentOrders || [],
         });
         setLoading(false);
       } catch (error) {
@@ -73,8 +59,10 @@ const AdminBoard = ({ isAuth, role, email }) => {
     fetchData();
   }, []);
 
-  if (!isAuth || role !== 'owner') {
-     return <Navigate to="/login" replace />;
+  if (!isAuth || role !== "owner") {
+    return (
+      <Navigate to="/login" replace state={{ from: { pathname: "/admin" } }} />
+    );
   }
 
   if (loading) return <Preloader />;
@@ -160,9 +148,9 @@ const AdminBoard = ({ isAuth, role, email }) => {
           </thead>
           <tbody>
             {data.recentOrders.length > 0 ? (
-              data.recentOrders.map(order => (
+              data.recentOrders.map((order) => (
                 <tr key={order.id}>
-                  <td>#{order.id}</td>
+                  <td>#{String(order.id).slice(0, 8)}</td>
                   <td>{order.name}</td>
                   <td>{order.quantity}</td>
                   <td>${(order.price * order.quantity).toFixed(2)}</td>

@@ -2,7 +2,11 @@
   "menu": {
     "main": "Main",
     "sneakers": "Sneakers",
-    "cart": "Cart"
+    "cart": "Cart",
+    "myOrders": "My orders",
+    "admin": "Admin",
+    "login": "Login",
+    "logout": "Logout"
   },
 
   "sneakersSection": {
@@ -97,11 +101,27 @@
     "recommended": "RECOMMENDED FOR YOU"
   },
 
+  "ordersSection": {
+    "title": "MY ORDERS",
+    "empty": "You have not placed any orders yet.",
+    "shop": "Shop sneakers",
+    "orderNumber": "Order",
+    "placed": "Placed",
+    "status": "Status",
+    "total": "Total",
+    "items": "Items",
+    "size": "Size"
+  },
+
   "placeOrderSection": {
     "orderConfirmed": {
       "title": "Order confirmed",
-      "hint": "wait for our manager's response by e-mail"
+      "hint": "wait for our manager's response by e-mail",
+      "button": "Back to home",
+      "viewOrders": "View my orders"
     },
+    "makeOrderBTN": "Place order",
+    "submitError": "Could not place order. Try again.",
     "title": "SHIPPING INFORMATION",
     "email": "Your Email Address",
     "name": "Full Name",
