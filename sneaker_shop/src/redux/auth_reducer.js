@@ -1,4 +1,4 @@
-import { authApi } from "../api/api";
+import { authApi, setAuthToken } from "../api/api";
 
 const SET_USER_DATA = "auth_reducer/SET_USER_DATA";
 const SET_AUTH_ERROR = "auth_reducer/SET_AUTH_ERROR";
@@ -7,7 +7,7 @@ const LOGOUT = "auth_reducer/LOGOUT";
 let initialState = {
   userId: null,
   email: null,
-  role: null, // 'user' | 'owner'
+  role: null,
   isAuth: false,
   authError: null,
 };
@@ -51,74 +51,77 @@ export const setAuthError = (error) => ({
 
 export const logout = () => {
   localStorage.removeItem("sneakerShopSession");
+  setAuthToken(null);
   return { type: LOGOUT };
 };
 
-// Helpers for Local Storage Registry
-const getLocalUsers = () => {
-    const users = localStorage.getItem("sneakerShopUserRegistry");
-    return users ? JSON.parse(users) : [];
+const persistSession = (token, user) => {
+  localStorage.setItem(
+    "sneakerShopSession",
+    JSON.stringify({
+      token,
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+    })
+  );
 };
 
-const saveLocalUser = (user) => {
-    const users = getLocalUsers();
-    const newUser = { ...user, id: Date.now().toString() };
-    users.push(newUser);
-    localStorage.setItem("sneakerShopUserRegistry", JSON.stringify(users));
-    return newUser;
-};
-
-// Thunks
-export const loginTh = (email, password) => async (dispatch) => {
-  try {
-    let user;
+export const loginTh =
+  (email, password, expectedRole) => async (dispatch) => {
     try {
-        const users = await authApi.getUsers();
-        user = users.data.find((u) => u.email === email && u.password === password);
-    } catch (e) {
-        console.warn("MockAPI users endpoint not found, checking local storage...");
-    }
-
-    // Fallback to local storage if not found in API
-    if (!user) {
-        const localUsers = getLocalUsers();
-        user = localUsers.find((u) => u.email === email && u.password === password);
-    }
-
-    if (user) {
+      dispatch(setAuthError(null));
+      const { data } = await authApi.login({
+        email,
+        password,
+        expectedRole,
+      });
+      const { token, user } = data;
+      setAuthToken(token);
+      persistSession(token, user);
       dispatch(setUserData(user.id, user.email, user.role));
-      localStorage.setItem("sneakerShopSession", JSON.stringify({ userId: user.id, email: user.email, role: user.role }));
-    } else {
-      dispatch(setAuthError("Invalid email or password"));
+    } catch (e) {
+      const msg =
+        e.response?.data?.error || "Invalid email or password";
+      dispatch(setAuthError(msg));
     }
-  } catch (error) {
-    dispatch(setAuthError("Server error. Please try again later."));
-  }
-};
+  };
 
 export const registerTh = (data) => async (dispatch) => {
   try {
-    let newUser;
-    try {
-        const response = await authApi.register(data);
-        newUser = response.data;
-    } catch (e) {
-        console.warn("MockAPI registration failed, falling back to local storage...");
-        newUser = saveLocalUser(data);
-    }
-
-    dispatch(setUserData(newUser.id, newUser.email, newUser.role));
-    localStorage.setItem("sneakerShopSession", JSON.stringify({ userId: newUser.id, email: newUser.email, role: newUser.role }));
-  } catch (error) {
-    dispatch(setAuthError("Registration failed. Try again."));
+    dispatch(setAuthError(null));
+    const { data: body } = await authApi.register(data);
+    const { token, user } = body;
+    setAuthToken(token);
+    persistSession(token, user);
+    dispatch(setUserData(user.id, user.email, user.role));
+  } catch (e) {
+    const msg = e.response?.data?.error || "Registration failed. Try again.";
+    dispatch(setAuthError(msg));
   }
 };
 
-export const initializeSessionTh = () => (dispatch) => {
-  const session = localStorage.getItem("sneakerShopSession");
-  if (session) {
-    const { userId, email, role } = JSON.parse(session);
-    dispatch(setUserData(userId, email, role));
+export const initializeSessionTh = () => async (dispatch) => {
+  const raw = localStorage.getItem("sneakerShopSession");
+  if (!raw) return;
+  let session;
+  try {
+    session = JSON.parse(raw);
+  } catch {
+    localStorage.removeItem("sneakerShopSession");
+    return;
+  }
+  if (!session?.token) {
+    localStorage.removeItem("sneakerShopSession");
+    return;
+  }
+  setAuthToken(session.token);
+  try {
+    const { data } = await authApi.me();
+    dispatch(setUserData(data.id, data.email, data.role));
+  } catch {
+    dispatch(logout());
+    setAuthToken(null);
   }
 };
 

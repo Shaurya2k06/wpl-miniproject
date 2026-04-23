@@ -6,11 +6,22 @@ import {
 import { connect } from "react-redux";
 import Cart from "./Cart";
 import { useEffect } from "react";
+import { Navigate } from "react-router-dom";
 
-let CartContainer = ({ getCartTh, cartData, setQuantinyTh, deleteItemTh }) => {
+let CartContainer = ({ getCartTh, cartData, setQuantinyTh, deleteItemTh, isAuth, role }) => {
   useEffect(() => {
     getCartTh();
-  }, [getCartTh]);
+  }, [getCartTh, isAuth, role]);
+
+  if (!isAuth) {
+    return (
+      <Navigate to="/login" replace state={{ from: { pathname: "/cart" } }} />
+    );
+  }
+
+  if (role !== "user") {
+    return <Navigate to="/admin" replace />;
+  }
 
   return (
     <Cart
@@ -24,6 +35,8 @@ let CartContainer = ({ getCartTh, cartData, setQuantinyTh, deleteItemTh }) => {
 let mapStateToProps = (state) => {
   return {
     cartData: state.cart.cart,
+    isAuth: state.auth.isAuth,
+    role: state.auth.role,
   };
 };
 

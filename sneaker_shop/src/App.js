@@ -11,18 +11,17 @@ import SneakerPageContainer from "./components/MainContent/SneakersSection/Sneak
 import MainContainer from "./components/MainContent/MainSection/MainContainer";
 import FavoritesContainer from "./components/MainContent/FavoritesSection/FavoritesContainer";
 import PlaceOrder from "./components/MainContent/CartSection/PlaceOrder/PlaceOrder";
+import MyOrders from "./components/MainContent/OrdersSection/MyOrders";
 import { useEffect } from "react";
 import { initializeApp } from "./redux/app_reducer";
-import { initializeSessionTh } from "./redux/auth_reducer";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import AdminBoard from "./components/Admin/AdminBoard";
 
-let App = ({ initializeApp, initializeSessionTh, isInitialized }) => {
+let App = ({ initializeApp, isInitialized }) => {
   useEffect(() => {
-    initializeSessionTh();
     initializeApp();
-  }, [initializeApp, initializeSessionTh]);
+  }, [initializeApp]);
 
   return isInitialized ? (
     <div className={style.appWrapper}>
@@ -35,6 +34,7 @@ let App = ({ initializeApp, initializeSessionTh, isInitialized }) => {
             <Route path="/sneakers/:id" element={<SneakerPageContainer />} />
             <Route path="/cart" element={<CartContainer />} />
             <Route path="/cart/place_order" element={<PlaceOrder />} />
+            <Route path="/orders" element={<MyOrders />} />
             <Route path="/favorites" element={<FavoritesContainer />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -56,7 +56,6 @@ App = connect(
   },
   {
     initializeApp,
-    initializeSessionTh,
   }
 )(App);
 

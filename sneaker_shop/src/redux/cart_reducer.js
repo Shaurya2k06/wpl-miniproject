@@ -1,4 +1,4 @@
-import { cartApi, favoritesApi } from "./../api/api";
+import { cartApi, favoritesApi, ordersApi } from "./../api/api";
 
 const GET_CART = "cart_reducer/GET_CART";
 const GET_FAVORITES = "cart_reducer/GET_FAVORITES";
@@ -24,28 +24,58 @@ const addToFavorite = (newFavoriteItem) => ({
   newFavoriteItem,
 });
 
-// const deleteItem = (newData) => ({
-//   type: DELETE_ITEM,
-//   newData,
-// });
-
-export const getCartTh = () => async (dispatch) => {
-  let data = await cartApi.getCartOrder();
-  dispatch(getCart(data.data));
+export const getCartTh = () => async (dispatch, getState) => {
+  const { auth } = getState();
+  if (!auth.isAuth || auth.role !== "user") {
+    dispatch(getCart([]));
+    return;
+  }
+  try {
+    let data = await cartApi.getCartOrder();
+    dispatch(getCart(data.data));
+  } catch {
+    dispatch(getCart([]));
+  }
 };
 
-export const deleteItemTh = (id) => async (dispatch) => {
+export const deleteItemTh = (id) => async (dispatch, getState) => {
+  const { auth } = getState();
+  if (!auth.isAuth || auth.role !== "user") return;
   await cartApi.deleteFromCart(id);
   dispatch(getCartTh());
 };
 
-export const addToCartTh = (orderData) => async (dispatch) => {
-  await cartApi.addToCart(orderData);
+export const addToCartTh = (orderData) => async (dispatch, getState) => {
+  const { auth } = getState();
+  if (!auth.isAuth || auth.role !== "user") {
+    window.alert(
+      "Please sign in as a customer to add items to your cart."
+    );
+    return;
+  }
+  try {
+    await cartApi.addToCart(orderData);
+    dispatch(getCartTh());
+  } catch (e) {
+    const msg = e.response?.data?.error || "Could not add to cart";
+    window.alert(msg);
+  }
 };
 
-export const setQuantinyTh = (id, total) => async (dispatch) => {
+export const setQuantinyTh = (id, total) => async (dispatch, getState) => {
+  const { auth } = getState();
+  if (!auth.isAuth || auth.role !== "user") return;
   await cartApi.setItemQuantiny(id, total);
   dispatch(getCartTh());
+};
+
+export const placeOrderTh = (shipping) => async (dispatch, getState) => {
+  const { auth } = getState();
+  if (!auth.isAuth || auth.role !== "user") {
+    throw new Error("Sign in as a customer to place an order.");
+  }
+  await ordersApi.create({ shipping });
+  await dispatch(getCartTh());
 };
 
 export const getFavoritesTh = () => async (dispatch) => {

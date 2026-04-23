@@ -1,5 +1,6 @@
 import { getStaffPicsTh } from "./main_reducer";
 import { getFavoritesTh } from "./cart_reducer";
+import { initializeSessionTh } from "./auth_reducer";
 
 const SET_INITIALIZED = "SET_INITIALIZED";
 
@@ -12,6 +13,7 @@ export const setInitialized = () => ({
 });
 
 export const initializeApp = () => async (dispatch) => {
+  await dispatch(initializeSessionTh());
   await dispatch(getStaffPicsTh());
   await dispatch(getFavoritesTh());
   dispatch(setInitialized());

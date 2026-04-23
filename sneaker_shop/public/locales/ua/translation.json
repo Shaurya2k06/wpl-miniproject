@@ -2,7 +2,11 @@
   "menu": {
     "main": "Головна",
     "sneakers": "Кросівки",
-    "cart": "Кошик"
+    "cart": "Кошик",
+    "myOrders": "Мої замовлення",
+    "admin": "Адмін",
+    "login": "Увійти",
+    "logout": "Вийти"
   },
 
   "sneakersSection": {
@@ -97,11 +101,27 @@
     "recommended": "РЕКОМЕНДОВАНО ДЛЯ ВАС"
   },
 
+  "ordersSection": {
+    "title": "МОЇ ЗАМОВЛЕННЯ",
+    "empty": "Ви ще не оформили жодного замовлення.",
+    "shop": "До каталогу",
+    "orderNumber": "Замовлення",
+    "placed": "Оформлено",
+    "status": "Статус",
+    "total": "Разом",
+    "items": "Товари",
+    "size": "Розмір"
+  },
+
   "placeOrderSection": {
     "orderConfirmed": {
       "title": "Замовлення підтверджено",
-      "hint": "wait for our manager's response by e-mail"
+      "hint": "wait for our manager's response by e-mail",
+      "button": "На головну",
+      "viewOrders": "Мої замовлення"
     },
+    "makeOrderBTN": "Підтвердити замовлення",
+    "submitError": "Не вдалося оформити замовлення. Спробуйте ще раз.",
     "title": "SHIPPING INFORMATION",
     "email": "Your Email Address",
     "name": "Full Name",

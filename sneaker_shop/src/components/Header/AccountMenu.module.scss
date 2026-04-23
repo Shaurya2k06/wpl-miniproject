@@ -1,0 +1,127 @@
+.wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(#{--border-items-default});
+  border-radius: 50%;
+  background: var(#{--components-background-default});
+  color: var(#{--body-text-color-default});
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+
+  &:hover {
+    background: var(#{--body-background-default});
+    border-color: var(#{--button-background-default});
+  }
+}
+
+.personSvg {
+  display: block;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 260px;
+  z-index: 100000000;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.panel {
+  padding: 14px 16px 12px;
+  background: var(#{--components-background-default});
+  border: 1px solid var(#{--border-items-default});
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.label {
+  margin: 0 0 4px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(#{--body-text-color-default});
+  opacity: 0.55;
+}
+
+.email {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  word-break: break-all;
+  color: var(#{--body-text-color-default});
+}
+
+.roleRow {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.roleValue {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(#{--body-text-color-default});
+}
+
+.divider {
+  height: 1px;
+  margin: 12px 0 10px;
+  background: var(#{--border-items-default});
+}
+
+.menuLink {
+  display: block;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(#{--body-text-color-default});
+  text-decoration: none;
+  border-radius: 6px;
+
+  &:hover {
+    color: var(#{--heart-fill-default});
+  }
+}
+
+.signOut {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px 0;
+  text-align: left;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: #c62828;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
