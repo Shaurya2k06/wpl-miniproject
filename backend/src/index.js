@@ -10,11 +10,51 @@ import ordersRoutes from "./routes/orders.routes.js";
 const app = express();
 const port = Number(process.env.PORT || 4000);
 
+<<<<<<< HEAD
 const frontend = process.env.FRONTEND_URL || "http://localhost:3000";
 
 app.use(
   cors({
     origin: frontend,
+=======
+/** Normalize origin for comparison (no trailing slash). */
+function normalizeOrigin(url) {
+  if (!url || typeof url !== "string") return "";
+  return url.trim().replace(/\/$/, "");
+}
+
+/**
+ * Allowed browser origins for CORS. Set on Render/Vercel:
+ * - FRONTEND_URL — primary app URL (also used for redirects if you add OAuth later)
+ * - CORS_ORIGINS — optional extra comma-separated URLs (e.g. http://localhost:3000)
+ */
+function allowedOrigins() {
+  const primary = normalizeOrigin(
+    process.env.FRONTEND_URL || "http://localhost:3000"
+  );
+  const extras = (process.env.CORS_ORIGINS || "")
+    .split(",")
+    .map((s) => normalizeOrigin(s))
+    .filter(Boolean);
+  return [...new Set([primary, ...extras])];
+}
+
+const corsOrigins = allowedOrigins();
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) {
+        return callback(null, true);
+      }
+      const n = normalizeOrigin(origin);
+      if (corsOrigins.includes(n)) {
+        return callback(null, true);
+      }
+      console.warn(`CORS: blocked origin ${origin}`);
+      return callback(null, false);
+    },
+>>>>>>> 2d1249c0e630297287afff797bb7d974d111f1e6
     credentials: true,
   })
 );

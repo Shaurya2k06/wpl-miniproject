@@ -6,13 +6,6 @@ import { requireAuth } from "../middleware/requireAuth.js";
 
 const router = Router();
 
-function ownerEmails() {
-  return (process.env.OWNER_EMAILS || "")
-    .split(",")
-    .map((e) => e.trim().toLowerCase())
-    .filter(Boolean);
-}
-
 function issueUserToken(user) {
   const token = signToken({
     sub: user.id,
@@ -31,13 +24,7 @@ router.post("/register", async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ error: "Email and password are required" });
     }
-    let role = requestedRole === "owner" ? "owner" : "user";
-    if (role === "owner") {
-      const allowed = ownerEmails();
-      if (!allowed.length || !allowed.includes(String(email).toLowerCase())) {
-        role = "user";
-      }
-    }
+    const role = requestedRole === "owner" ? "owner" : "user";
     const hash = await bcrypt.hash(password, 10);
     const pool = getPool();
     const inserted = await pool.query(
