@@ -86,9 +86,9 @@ export const en = {
       titleStore: "SNEAKER SHOP STORES",
       titleHistory: "OUR HISTORY",
       textStore:
-        "With three retail locations in New York, Los Angeles, and Miami, Flight Club remains the premier source for everything sneakers.",
+        "With three retail locations in New York, Los Angeles, and Miami, Pranav remains the premier source for everything sneakers.",
       textHistory:
-        "For over a decade, Flight Club has changed the landscape of sneaker retail. Carrying every brand name on the market, Flight Club has evolved from a one-stop sneaker destination, to a cultural hub for sneaker enthusiasts and novices alike. From Air Jordans to Nike to Adidas and more, we have it all.",
+        "For over a decade, Pranav has changed the landscape of sneaker retail. Carrying every brand name on the market, Pranav has evolved from a one-stop sneaker destination, to a cultural hub for sneaker enthusiasts and novices alike. From Air Jordans to Nike to Adidas and more, we have it all.",
     },
   },
 
@@ -116,16 +116,16 @@ export const en = {
       cancelationsDescription1:
         "For sneakers, you may cancel your order within 3 hours of placing it or before it is confirmed by the seller - whichever comes first. If 3 hours have passed from when you placed the order and/or the seller has already confirmed the order, then the order cannot be canceled. If neither have occurred, you can cancel your order first by accessing it via “Track My Order” or “My Account,” clicking “Cancel Order” and following the instructions.",
       cancelationsDescription2:
-        "If you checked out as a guest, you will need to create a Flight Club account.",
+        "If you checked out as a guest, you will need to create a Pranav account.",
       delivery: "Delivery",
       deliveryDescription1:
         "Delivery and processing speeds vary by pricing options. The following shipping estimates apply only to the contiguous US and exclude deliveries to PO boxes and military bases. All delivery times are estimates and are not guaranteed. Shipments may be affected by weather-related delays, carrier limitations or other events outside of our control.",
       deliveryDescription2:
-        "'Lowest Price' orders may ship to Flight Club first for verification and typically take 7-10 business days (M-F, excluding holidays) to reach you. It will typically take 3-5 business days (M-F, excluding holidays) for a 'Fastest To You' item, ordered before 2 PM ET with standard shipping, to be delivered.",
+        "'Lowest Price' orders may ship to Pranav first for verification and typically take 7-10 business days (M-F, excluding holidays) to reach you. It will typically take 3-5 business days (M-F, excluding holidays) for a 'Fastest To You' item, ordered before 2 PM ET with standard shipping, to be delivered.",
       deliveryDescription3:
         "Estimated delivery times do not apply to international orders. International customers are responsible for any additional fees or taxes after an item ships.",
       returns: "Returns",
-      returnsDescription1: "All sales with Flight Club are final.",
+      returnsDescription1: "All sales with Pranav are final.",
       returnsDescription2:
         "If you have any questions or concerns with regard to sizing or condition of a specific product on our site, please contact us before purchasing.",
     },
