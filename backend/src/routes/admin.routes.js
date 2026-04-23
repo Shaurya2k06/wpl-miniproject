@@ -6,72 +6,129 @@ const router = Router();
 
 router.use(requireAuth, requireOwner);
 
+/** Last 6 calendar months (UTC) as { year, month0, label } for chart buckets. */
+function sixMonthBuckets() {
+  const buckets = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date();
+    d.setUTCMonth(d.getUTCMonth() - i);
+    d.setUTCDate(1);
+    d.setUTCHours(0, 0, 0, 0);
+    buckets.push({
+      year: d.getUTCFullYear(),
+      month0: d.getUTCMonth(),
+      label: d.toLocaleString("en-US", { month: "short", timeZone: "UTC" }) +
+        " " +
+        String(d.getUTCFullYear()).slice(-2),
+      sales: 0,
+    });
+  }
+  return buckets;
+}
+
+function bucketKey(y, m0) {
+  return `${y}-${m0}`;
+}
+
 router.get("/stats", async (_req, res) => {
   try {
     const pool = getPool();
-    let sneakers = [];
-    try {
-      const sneakersRes = await fetch(
-        "https://63bd839d18bc301c026b31a9.mockapi.io/sneakersData"
-      );
-      const data = await sneakersRes.json();
-      if (Array.isArray(data)) sneakers = data;
-    } catch {
-      sneakers = [];
+
+    const [totals, monthlyRows, productRows, orderRows] = await Promise.all([
+      pool.query(
+        `SELECT
+           COALESCE(SUM(ol.price * ol.quantity), 0)::numeric AS revenue,
+           COUNT(DISTINCT o.id)::int AS order_count,
+           COALESCE(SUM(ol.quantity), 0)::bigint AS units
+         FROM order_lines ol
+         JOIN orders o ON o.id = ol.order_id
+         JOIN users u ON u.id = o.user_id AND u.role = 'user'`
+      ),
+      pool.query(
+        `SELECT
+           date_trunc('month', o.created_at AT TIME ZONE 'UTC') AS bucket,
+           SUM(ol.price * ol.quantity)::float AS sales
+         FROM order_lines ol
+         JOIN orders o ON o.id = ol.order_id
+         JOIN users u ON u.id = o.user_id AND u.role = 'user'
+         WHERE o.created_at >= NOW() - INTERVAL '8 months'
+         GROUP BY bucket
+         ORDER BY bucket`
+      ),
+      pool.query(
+        `SELECT ol.name,
+                SUM(ol.quantity)::int AS units,
+                SUM(ol.price * ol.quantity)::numeric AS revenue
+         FROM order_lines ol
+         JOIN orders o ON o.id = ol.order_id
+         JOIN users u ON u.id = o.user_id AND u.role = 'user'
+         GROUP BY ol.name
+         ORDER BY revenue DESC NULLS LAST
+         LIMIT 24`
+      ),
+      pool.query(
+        `SELECT o.id,
+                o.created_at,
+                o.total_amount,
+                u.email AS customer_email,
+                (SELECT COUNT(*)::int FROM order_lines x WHERE x.order_id = o.id) AS item_count
+         FROM orders o
+         JOIN users u ON u.id = o.user_id AND u.role = 'user'
+         ORDER BY o.created_at DESC
+         LIMIT 25`
+      ),
+    ]);
+
+    const t = totals.rows[0] || {};
+    const totalSales = Number(t.revenue || 0);
+    const totalOrders = Number(t.order_count || 0);
+    const totalUnitsSold = Number(t.units || 0);
+
+    const monthMap = new Map();
+    for (const row of monthlyRows.rows) {
+      const d = row.bucket instanceof Date ? row.bucket : new Date(row.bucket);
+      const y = d.getUTCFullYear();
+      const m0 = d.getUTCMonth();
+      monthMap.set(bucketKey(y, m0), Number(row.sales) || 0);
     }
-    const sneakersCount = sneakers.length;
 
-    const lineRows = await pool.query(
-      `SELECT ol.id, ol.name, ol.price, ol.quantity, o.created_at
-       FROM order_lines ol
-       JOIN orders o ON o.id = ol.order_id
-       JOIN users u ON u.id = o.user_id AND u.role = 'user'
-       ORDER BY o.created_at ASC, ol.created_at ASC`
-    );
-
-    const rows = lineRows.rows;
-    const totalSales = rows.reduce(
-      (acc, item) => acc + Number(item.price) * item.quantity,
-      0
-    );
-
-    const orderCountRes = await pool.query(
-      `SELECT COUNT(*)::int AS c FROM orders o
-       JOIN users u ON u.id = o.user_id AND u.role = 'user'`
-    );
-    const orderCount = orderCountRes.rows[0]?.c ?? 0;
-
-    const recentOrders = [...rows].slice(-5).reverse().map((order) => ({
-      id: order.id,
-      name: order.name,
-      quantity: order.quantity,
-      price: Number(order.price),
+    const salesData = sixMonthBuckets().map((b) => ({
+      name: b.label,
+      sales: monthMap.get(bucketKey(b.year, b.month0)) ?? 0,
     }));
 
-    const salesData = [
-      { name: "Jan", sales: 4000 },
-      { name: "Feb", sales: 3000 },
-      { name: "Mar", sales: 2000 },
-      { name: "Apr", sales: 2780 },
-      { name: "May", sales: 1890 },
-      { name: "Jun", sales: 2390 },
-    ];
+    const products = productRows.rows.map((r) => ({
+      name: r.name?.length > 32 ? `${String(r.name).slice(0, 30)}…` : r.name,
+      value: Number(r.revenue) || 0,
+      units: Number(r.units) || 0,
+    }));
 
     let brandData = [];
-    if (sneakers.length) {
-      const brands = {};
-      sneakers.forEach((s) => {
-        brands[s.brand] = (brands[s.brand] || 0) + 1;
-      });
-      brandData = Object.keys(brands).map((key) => ({ name: key, value: brands[key] }));
+    if (products.length) {
+      const top = products.slice(0, 7);
+      const rest = products.slice(7);
+      brandData = [...top];
+      const otherRev = rest.reduce((a, p) => a + p.value, 0);
+      const otherUnits = rest.reduce((a, p) => a + p.units, 0);
+      if (otherRev > 0) {
+        brandData.push({ name: "Other", value: otherRev, units: otherUnits });
+      }
     }
+
+    const recentOrders = orderRows.rows.map((o) => ({
+      id: o.id,
+      customerEmail: o.customer_email,
+      placedAt: o.created_at.toISOString(),
+      itemCount: o.item_count,
+      orderTotal: Number(o.total_amount),
+    }));
 
     return res.json({
       totalSales: totalSales.toFixed(2),
-      totalOrders: orderCount,
-      totalSneakers: sneakersCount,
-      brandData,
+      totalOrders,
+      totalUnitsSold,
       salesData,
+      brandData,
       recentOrders,
     });
   } catch (e) {
